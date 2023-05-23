@@ -80,7 +80,7 @@ for country in contents[17:-16]:
             "X-RapidAPI-Host": "distanceto.p.rapidapi.com"
         }
         trip_response = requests.get(trip_url, headers=headers, params=querystring).text
-        json_trip = data.json_page
+        json_trip = json.loads(trip_response)
         car_trip_info = json_trip['steps'][0]['distance']['car']
         car_distance = float(car_trip_info['distance'] / 1000)
         car_duration = float(car_trip_info['duration'] / 3600)
