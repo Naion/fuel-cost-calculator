@@ -7,7 +7,24 @@ from vincenty import vincenty
 
 country_found = False
 
-response = requests.get('https://ec.europa.eu/energy/observatory/reports/latest_prices_with_taxes.pdf')
+url = "https://distanceto.p.rapidapi.com/get"
+
+querystring = {"route":"[{\"t\":\"52.5597, 13.2877\"},{\"t\":\"Barcelona\"}]","car":"true"}
+
+headers = {
+	"X-RapidAPI-Key": "0633413946msh2052f9e7d584db6p1595d2jsnd8ee7f654313",
+	"X-RapidAPI-Host": "distanceto.p.rapidapi.com"
+}
+
+response = requests.get(url, headers=headers, params=querystring).text
+json_text = json.loads(response)
+car_info = json_text['steps'][0]['distance']['car']
+car_distance = float(car_info['distance'] / 1000)
+car_duration = float(car_info['duration'] / 3600)
+
+print(f'{car_distance:.2f} {car_duration:.2f}')
+
+'''response = requests.get('https://ec.europa.eu/energy/observatory/reports/latest_prices_with_taxes.pdf')
 f = io.BytesIO(response.content)
 reader = PdfReader(f)
 contents = reader.pages[1].extract_text().split('\n')
@@ -54,4 +71,4 @@ for country in contents[17:-16]:
             print('Fuel is not correct.')
 
 if not country_found:
-    print('Country not found.')
+    print('Country not found.')'''
