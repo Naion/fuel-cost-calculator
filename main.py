@@ -2,6 +2,7 @@ import math
 import requests
 import json
 import io
+import data
 from pypdf import PdfReader
 from geopy.geocoders import Nominatim
 from vincenty import vincenty
@@ -46,7 +47,8 @@ for country in contents[17:-16]:
         querystring = {"route":'[{\"t\":\"'+str(origin.latitude)+','+ str(origin.longitude)+'\"},{\"t\":\"'+str(destination.latitude)+','+ str(destination.longitude)+'\"}]',"car":"true"}
 
         headers = {
-            "X-RapidAPI-Key": "0633413946msh2052f9e7d584db6p1595d2jsnd8ee7f654313",
+            #sub_code will be the code that you receive once you subscribed to Disctante API at rapidapi.com
+            "X-RapidAPI-Key": data.sub_code,
             "X-RapidAPI-Host": "distanceto.p.rapidapi.com"
         }
 
