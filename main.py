@@ -42,20 +42,16 @@ for country in contents[17:-16]:
         car_maker = car_info[0]
         car_model = car_info[1]
         
-
         car_url = "https://car-utils.p.rapidapi.com/fueleconomy"
-
-        querystring = {"make":f"{car_maker}",f"{car_model}":"500"}
-
+        querystring = {"make":f"{car_maker}","model":f"{car_model}"}
         headers = {
             "X-RapidAPI-Key": "0633413946msh2052f9e7d584db6p1595d2jsnd8ee7f654313",
             "X-RapidAPI-Host": "car-utils.p.rapidapi.com"
         }
-
         car_response = requests.get(car_url, headers=headers, params=querystring)
         json_car = car_response.json()
 
-        if isinstance(json_car, list) == False:
+        if not isinstance(json_car, list):
             if 'not found' in json_car.values():
                 answer = input('Car not found, do you want to put manually the fuel economy? (yes/no) ')
                 if answer == 'yes':
@@ -67,25 +63,22 @@ for country in contents[17:-16]:
                 else:
                     print('Invalid answer')
                     exit()
-        else:
-            total_mpg = 0
-            lenght = 0
-            for car in json_car:
-                if car['fuel_type'] != 'Electricity':
-                    total_mpg += car['combined_mpg']
-                    lenght += 1
-            consumo = (235.215 / (total_mpg / lenght)) / 100
+                    
+        total_mpg = 0
+        lenght = 0
+        for car in json_car:
+            if car['fuel_type'] != 'Electricity':
+                total_mpg += car['combined_mpg']
+                lenght += 1
+        consumo = (235.215 / (total_mpg / lenght)) / 100
 
         trip_url = "https://distanceto.p.rapidapi.com/get"
-
         querystring = {"route":'[{\"t\":\"'+str(origin.latitude)+','+ str(origin.longitude)+'\"},{\"t\":\"'+str(destination.latitude)+','+ str(destination.longitude)+'\"}]',"car":"true"}
-
         headers = {
             #sub_code will be the code that you receive once you subscribed to Disctante API at rapidapi.com
             "X-RapidAPI-Key": data.sub_code,
             "X-RapidAPI-Host": "distanceto.p.rapidapi.com"
         }
-
         trip_response = requests.get(trip_url, headers=headers, params=querystring).text
         json_trip = data.json_page
         car_trip_info = json_trip['steps'][0]['distance']['car']
