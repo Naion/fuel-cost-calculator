@@ -45,7 +45,7 @@ for country in contents[17:-16]:
         car_url = "https://car-utils.p.rapidapi.com/fueleconomy"
         querystring = {"make":f"{car_maker}","model":f"{car_model}"}
         headers = {
-            "X-RapidAPI-Key": "0633413946msh2052f9e7d584db6p1595d2jsnd8ee7f654313",
+            "X-RapidAPI-Key": data.sub_code,
             "X-RapidAPI-Host": "car-utils.p.rapidapi.com"
         }
         car_response = requests.get(car_url, headers=headers, params=querystring)
