@@ -45,6 +45,7 @@ for country in contents[17:-16]:
         car_url = "https://car-utils.p.rapidapi.com/fueleconomy"
         querystring = {"make":f"{car_maker}","model":f"{car_model}"}
         headers = {
+            #sub_code will be the code that you receive once you subscribed to Disctante API at rapidapi.com
             "X-RapidAPI-Key": data.sub_code,
             "X-RapidAPI-Host": "car-utils.p.rapidapi.com"
         }
@@ -80,7 +81,7 @@ for country in contents[17:-16]:
             "X-RapidAPI-Host": "distanceto.p.rapidapi.com"
         }
         trip_response = requests.get(trip_url, headers=headers, params=querystring).text
-        json_trip = json.loads(trip_response)
+        json_trip = data.json_page
         car_trip_info = json_trip['steps'][0]['distance']['car']
         car_distance = float(car_trip_info['distance'] / 1000)
         car_duration = float(car_trip_info['duration'] / 3600)
